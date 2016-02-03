@@ -1,44 +1,46 @@
 var express = require('express');
 var bookRouter = express.Router();
+var mongodb = require('mongodb').MongoClient;
+var objectId = require('mongodb').ObjectID;
+
 
 // function bundle route
 var router = function(nav) {
-   var books = [
-   {
-      title: 'Some',
-      genre: 'fiction',
-      author: 'Someone',
-      read: false
-   },
-   {
-      title: 'Some 2',
-      genre: 'non-fiction',
-      author: 'another person',
-      read: false
-   },
-   {
-      title: 'some 3',
-      genre: 'myster',
-      author: 'LR Stin',
-      read: false
-   }
-];
+  
    bookRouter.route('/')
       .get(function(req, res) {
-         res.render('books', {
-             title: 'books',
-             nav: nav,
-             books: books
+         // get all of our books from the mongo db
+         var url = 'mongodb://localhost/book_app_temp';
+         // plain ol' mongodb, without mongoose
+         mongodb.connect(url, function(error, db) {
+            // get our collection
+            var collection = db.collection('books');
+            collection.find({}).toArray(function(error, results) {
+               res.render('books', {
+                   title: 'books',
+                   nav: nav,
+                   books: results // results from the collection.find call
+               });
+            });
          });
       });
       
    bookRouter.route('/:id')
       .get(function(req, res) {
-         var id = req.params.id;
-         res.render('book', {
-            title: 'Book',
-            nav: nav,
-            book: books[id]
+         var id = new objectId(req.params.id);
+         // get all of our books from the mongo db
+         var url = 'mongodb://localhost/book_app_temp';
+         // plain ol' mongodb, without mongoose
+         mongodb.connect(url, function(error, db) {
+            // get our collection
+            var collection = db.collection('books');
+            collection.findOne({_id: id},    function(error, result) {
+               res.render('book', {
+                   title: 'books',
+                   nav: nav,
+                   book: result // results from the collection.find call
+               });
+            });
          });
       });
       
