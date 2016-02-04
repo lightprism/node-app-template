@@ -2,30 +2,34 @@ var express = require('express');
 var adminRouter = express.Router();
 var mongodb = require('mongodb').MongoClient; // just pulling in one thing so far
 
- var books = [
+var books = [
    {
-      title: 'Harry Potter Something',
-      genre: 'fiction',
-      author: 'J.K. Rowling',
-      read: false
+      title: 'Altered Carbon',
+      genre: 'sci-fi',
+      author: 'Richard K. Morgan',
+      read: false,
+      bookId: 40445
    },
    {
       title: 'Replay',
       genre: 'fiction',
-      author: 'Repl Song',
-      read: false
+      author: 'Ken Grimwood',
+      read: false,
+      bookId: 341735
    },
    {
-      title: 'MLK Bibliography',
-      genre: 'non-fiction',
-      author: 'MLK Fan',
-      read: false
+      title: '11/22/63',
+      genre: 'fiction',
+      author: 'Stephen King',
+      read: false,
+      bookId: 10644930
    },
    {
-       title: 'Tom Sawyer',
-       genre: 'fiction',
-       author: 'Mark Twain',
-       read: true
+       title: 'Eragon',
+       genre: 'fantasy',
+       author: 'Christopher Paolini',
+       read: true,
+       bookId: 113436
    }
 ];
 

@@ -6,43 +6,14 @@ var objectId = require('mongodb').ObjectID;
 
 // function bundle route
 var router = function(nav) {
-  
+   var bookService = require('../services/goodreadsService')();
+   var bookController = require('../controllers/bookController')(bookService, nav);
+   bookRouter.use(bookController.middleware);
    bookRouter.route('/')
-      .get(function(req, res) {
-         // get all of our books from the mongo db
-         var url = 'mongodb://localhost/book_app_temp';
-         // plain ol' mongodb, without mongoose
-         mongodb.connect(url, function(error, db) {
-            // get our collection
-            var collection = db.collection('books');
-            collection.find({}).toArray(function(error, results) {
-               res.render('books', {
-                   title: 'books',
-                   nav: nav,
-                   books: results // results from the collection.find call
-               });
-            });
-         });
-      });
+      .get(bookController.getIndex);
       
    bookRouter.route('/:id')
-      .get(function(req, res) {
-         var id = new objectId(req.params.id);
-         // get all of our books from the mongo db
-         var url = 'mongodb://localhost/book_app_temp';
-         // plain ol' mongodb, without mongoose
-         mongodb.connect(url, function(error, db) {
-            // get our collection
-            var collection = db.collection('books');
-            collection.findOne({_id: id},    function(error, result) {
-               res.render('book', {
-                   title: 'books',
-                   nav: nav,
-                   book: result // results from the collection.find call
-               });
-            });
-         });
-      });
+      .get(bookController.getById);
       
    return bookRouter;
 };
