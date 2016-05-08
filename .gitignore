@@ -1,6 +1,6 @@
 # ignore the following
 bower_components/
 node_modules/
-
+.DS_STORE
 # new bower components directory
 public/lib
